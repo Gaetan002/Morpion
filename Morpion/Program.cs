@@ -9,9 +9,17 @@ namespace Morpion
         public static int[,] grille = new int[3, 3]; // matrice pour stocker les coups joués
 
         // Fonction permettant l'affichage du Morpion
-        public static void AfficherMorpion(int j, int k)
+        public static void AfficherMorpion(int j, int k) // A compléter 
         {
-            // A compléter 
+            string Tableau_Morpion =
+            " ______________" + "\n" + "\n" +
+            "|" + "_" + grille[0, 0] + "_" + "|" + "_" + grille[0, 1] + "_" + "|" + "_" + grille[0, 2] + "_" + "|" + "\n" +
+            " ______________" + "\n" + "\n" +
+            "|" + "_" + grille[1, 0] + "_" + "|" + "_" + grille[1, 1] + "_" + "|" + "_" + grille[1, 2] + "_" + "|" + "\n" +
+            " ______________" + "\n" + "\n" +
+            "|" + "_" + grille[2, 0] + "_" + "|" + "_" + grille[2, 1] + "_" + "|" + "_" + grille[2, 2] + "_" + "|" + "\n" +
+            " ______________";
+            Console.WriteLine(Tableau_Morpion);
         }
 
         // Fonction permettant de changer
@@ -22,7 +30,9 @@ namespace Morpion
         // n'est pas déjà jouée
         public static bool AJouer(int j, int k, int joueur)
         {
-            // A compléter 
+
+
+            // A compléter au dessus de "return false;"
             return false;
         }
 
@@ -30,7 +40,7 @@ namespace Morpion
         // si un joueur à gagner
         public static bool Gagner(int l, int c, int joueur)
         {
-            // A compléter 
+            // A compléter "return false;"
             return false;
         }
 
@@ -55,7 +65,7 @@ namespace Morpion
 			        grille[j,k] = 10;
             while(!gagner && essais != 9)
             {
-
+                AfficherMorpion(j, k);
                 // A compléter 
                 try
                 {
