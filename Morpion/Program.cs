@@ -10,25 +10,21 @@ namespace Morpion
         public static int[,] grille = new int[3, 3]; // matrice pour stocker les coups joués
 
         // Fonction permettant l'affichage du Morpion
-        public static void AfficherMorpion(int j, int k)
+        public static void AfficherMorpion(int j, int k, int[] grille)
         {
             // Dessiner une grille
-            for ( j = 0; j < grille.GetLength(0); j++)
-            {
-                Console.Write("\n|====|====|====|\n");
-                Console.Write("|");
-                for (int i = 0; i < grille.GetLength(1); i++)
-                {
-                    Console.Write(" -- ");
-                    Console.Write("|");
-                }
-
-            }
-            Console.Write("\n|====|====|====|");
+            string dessinGrille =
+            "\n|===|===|===|\n" +
+              $"| {grille} | {grille} | {grille} |\n" +
+              "|===|===|===|\n" +
+              $"| {grille} | {grille} | {grille} |\n" +
+              "|===|===|===|\n" +
+              $"| {grille} | {grille} | {grille} |\n" +
+              "|===|===|===|\n";
+            Console.WriteLine(dessinGrille);
         }
-
         // Fonction permettant de changer
-        // dans le tableau qu'elle est le 
+        // dans le tableau quel est le 
         // joueur qui à jouer
         // Bien vérifier que le joueur ne sort
         // pas du tableau et que la position
@@ -82,13 +78,13 @@ namespace Morpion
             bool bonnePosition = false; // Permet de vérifier si la position souhaité est disponible
 
 	        //--- initialisation de la grille ---
-            // On met chaque valeur du tableau à 10
+            // On met chaque valeur du tableau à 0, signifiant qu'il n'y a pas de coup joué à cet emplacement
 	        for (j=0; j < grille.GetLength(0); j++)
 		        for (k=0; k < grille.GetLength(1); k++)
-			        grille[j,k] = 10;
+			        grille[j,k] = 0;
             while(!gagner && essais != 9)
             {
-                AfficherMorpion(j, k);
+                AfficherMorpion(j, k, grille[]);
                 // A compléter 
                 try
                 {
@@ -100,6 +96,11 @@ namespace Morpion
                     // Peut changer en fonction de comment vous avez fait votre tableau.
                     Console.SetCursorPosition(LigneDébut + 10, ColonneDébut + 10); // Permet de manipuler le curseur dans la fenêtre 
                     c = int.Parse(Console.ReadLine()) - 1;
+
+                    if (grille[0, 0] == 0)
+                    {
+                        Console.Write(dessinGrille);
+                    }
 
                     // A compléter 
                     AfficherMorpion(j, k);
