@@ -9,17 +9,23 @@ namespace Morpion
         public static int[,] grille = new int[3, 3]; // matrice pour stocker les coups joués
 
         // Fonction permettant l'affichage du Morpion
-        public static void AfficherMorpion(int j, int k) // A compléter 
+        public static void AfficherMorpion(int j, int k)
         {
-            string Tableau_Morpion =
-            " ______________" + "\n" + "\n" +
-            "|" + "_" + grille[0, 0] + "_" + "|" + "_" + grille[0, 1] + "_" + "|" + "_" + grille[0, 2] + "_" + "|" + "\n" +
-            " ______________" + "\n" + "\n" +
-            "|" + "_" + grille[1, 0] + "_" + "|" + "_" + grille[1, 1] + "_" + "|" + "_" + grille[1, 2] + "_" + "|" + "\n" +
-            " ______________" + "\n" + "\n" +
-            "|" + "_" + grille[2, 0] + "_" + "|" + "_" + grille[2, 1] + "_" + "|" + "_" + grille[2, 2] + "_" + "|" + "\n" +
-            " ______________";
-            Console.WriteLine(Tableau_Morpion);
+            int[,] grille = new int[3, 3];
+
+            // Dessiner une grille
+            for (var dg = 0; dg < grille.GetLength(0); dg++)
+            {
+                Console.Write("\n|====|====|====|\n");
+                Console.Write("|");
+                for (var i = 0; i < grille.GetLength(1); i++)
+                {
+                    Console.Write(" -- ");
+                    Console.Write("|");
+                }
+
+            }
+            Console.Write("\n|====|====|====|");
         }
 
         // Fonction permettant de changer
