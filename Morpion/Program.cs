@@ -102,7 +102,9 @@ namespace Morpion
                     c = int.Parse(Console.ReadLine()) - 1;
 
                     // A compléter 
+                    AfficherMorpion(j, k);
 
+                    essais++; // L'essais étant terminé, on le compte rajoute au compteur
                 }
                 catch (Exception e)
                 {
@@ -111,6 +113,7 @@ namespace Morpion
 
                 // Changement de joueur
                 // A compléter 
+                AJouer(j, k, joueur, bonnePosition);
 
             }; // Fin TQ
 
