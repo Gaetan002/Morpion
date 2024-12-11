@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 
@@ -11,14 +12,12 @@ namespace Morpion
         // Fonction permettant l'affichage du Morpion
         public static void AfficherMorpion(int j, int k)
         {
-            int[,] grille = new int[3, 3];
-
             // Dessiner une grille
-            for (var dg = 0; dg < grille.GetLength(0); dg++)
+            for ( j = 0; j < grille.GetLength(0); j++)
             {
                 Console.Write("\n|====|====|====|\n");
                 Console.Write("|");
-                for (var i = 0; i < grille.GetLength(1); i++)
+                for (int i = 0; i < grille.GetLength(1); i++)
                 {
                     Console.Write(" -- ");
                     Console.Write("|");
@@ -34,9 +33,27 @@ namespace Morpion
         // Bien vérifier que le joueur ne sort
         // pas du tableau et que la position
         // n'est pas déjà jouée
-        public static bool AJouer(int j, int k, int joueur)
+        public static bool AJouer(int j, int k, int joueur, bool bonnePosition)
         {
-
+            while (j > 3 || j < 0 || k > 3 || k < 0)
+            {
+                Console.WriteLine("Vous êtes en dehors du tableau, rejouez à l'intérieur du tableau.");
+            }
+            while (bonnePosition == false)
+            {
+                Console.WriteLine("La position a déjà été jouée, rejouez dans une autre position.");
+            }
+            
+            if (joueur == 1)
+            {
+                joueur = 2;
+                Console.WriteLine("C'est au joueur 2 de jouer.");
+            }
+            else
+            {
+                joueur = 1;
+                Console.WriteLine("C'est au joueur 1 de jouer.");
+            }
 
             // A compléter au dessus de "return false;"
             return false;
@@ -46,7 +63,7 @@ namespace Morpion
         // si un joueur à gagner
         public static bool Gagner(int l, int c, int joueur)
         {
-            // A compléter "return false;"
+            // A compléter au dessus de "return false;"
             return false;
         }
 
@@ -101,6 +118,6 @@ namespace Morpion
             // A compléter 
 
             Console.ReadKey();
+        }
     }
-  }
 }
