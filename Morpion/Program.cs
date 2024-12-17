@@ -24,13 +24,15 @@ namespace Morpion
             if (grille[j, k] == 0)
             {
                 Console.Write(
-                "\n|===|===|===|\n" +
-                 $"| - | - | - |\n" +
-                  "|===|===|===|\n" +
-                 $"| - | - | - |\n" +
-                  "|===|===|===|\n" +
-                 $"| - | - | - |\n" +
-                  "|===|===|===|\n");
+                    "   L1  L2  L3    " +
+                  "\n  |===|===|===|\n" +
+                    "C1| - | - | - |\n" +
+                    "  |===|===|===|\n" +
+                    "C2| - | - | - |\n" +
+                    "  |===|===|===|\n" +
+                    "C3| - | - | - |\n" +
+                    "  |===|===|===|\n"
+                  );
             }
         }
         // Fonction permettant de changer
@@ -44,7 +46,7 @@ namespace Morpion
             int recommencer = 0;
             if (j > 3 || j < 0 || k > 3 || k < 0)
             {
-                AfficherMorpion(j, k);
+                Console.Clear();
                 Console.WriteLine("Vous êtes en dehors du tableau, rejouez à l'intérieur du tableau.");
                 recommencer = 1;
                 return false;
@@ -52,8 +54,8 @@ namespace Morpion
             
             if (grille[j, k] == 1 || grille[j, k] == 2)
             {
-                AfficherMorpion(j, k);
-                Console.WriteLine("Cette position a déjà été jouée, rejouez dans une position libre.");
+                Console.Clear();
+                Console.WriteLine("La position choisie a déjà été jouée, rejouez dans une position libre.");
                 recommencer = 1;
                 return false;
             }
@@ -63,13 +65,15 @@ namespace Morpion
                 if (joueur == 1)
                 {
                     joueur = 2;
-                    Console.WriteLine("C'est au joueur 2 de jouer.");
+                    Console.Clear();
+                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer.");
                     return true;
                 }
                 else
                 {
                     joueur = 1;
-                    Console.WriteLine("C'est au joueur 1 de jouer.");
+                    Console.Clear();
+                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer.");
                     return true;
                 }
             }
@@ -102,34 +106,51 @@ namespace Morpion
 	        //--- initialisation de la grille ---
             // On met chaque valeur du tableau à 0, signifiant qu'il n'y a pas de coup joué à cet emplacement
 	        for (j=0; j < grille.GetLength(0); j++)
-		        for (k=0; k < grille.GetLength(1); k++)
-			        grille[j,k] = 0;
+            {
+                for (k = 0; k < grille.GetLength(1); k++)
+                {
+                    grille[j, k] = 0;
+                }
+            }
+
             j = 0;
             k = 0;
             while(!gagner && essais != 9)
             {
                 AfficherMorpion(j, k);
+
                 // A compléter 
                 try
                 {
-                    Console.WriteLine("Ligne   =    ");
-                    Console.WriteLine("Colonne =    ");
-                    // Peut changer en fonction de comment vous avez fait votre tableau.
-                    Console.SetCursorPosition(LigneDébut + 10, ColonneDébut + 8); // Permet de manipuler le curseur dans la fenêtre 
-                    l = int.Parse(Console.ReadLine()) - 1; 
-                    // Peut changer en fonction de comment vous avez fait votre tableau.
-                    Console.SetCursorPosition(LigneDébut + 10, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
-                    c = int.Parse(Console.ReadLine()) - 1;
-                    // A compléter
-                    j = l;
-                    k = c;
-                    if (AJouer(j, k, joueur) == true)
+                    Console.WriteLine("Numéro de ligne   =    ");
+                    Console.WriteLine("Numéro de colonne =    ");
+                    try
                     {
+                        // Peut changer en fonction de comment vous avez fait votre tableau.
+                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 8); // Permet de manipuler le curseur dans la fenêtre 
+                        l = int.Parse(Console.ReadLine()) - 1;
+                        // Peut changer en fonction de comment vous avez fait votre tableau.
+                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
+                        c = int.Parse(Console.ReadLine()) - 1;
 
-                        essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                        Console.WriteLine(c);
+                        Console.WriteLine(l);
+                        j = l;
+                        k = c;
+                        if (AJouer(j, k, joueur) == true)
+                        {
+
+                            essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                        }
+                        Console.Clear();
+                        
+                        // A compléter
                     }
-                    
-                    AfficherMorpion(j, k);
+                    catch
+                    {
+                        Console.Clear();
+                        Console.WriteLine("La saisie n'est pas conforme, ressaisissez la valeur.");
+                    }
 
                     
                 }
@@ -140,7 +161,6 @@ namespace Morpion
 
                 // Changement de joueur
                 // A compléter 
-                AJouer(j, k, joueur);
 
             }; // Fin TQ
 
