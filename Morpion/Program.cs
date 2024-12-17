@@ -39,34 +39,46 @@ namespace Morpion
         // Bien vérifier que le joueur ne sort
         // pas du tableau et que la position
         // n'est pas déjà jouée
-        public static bool AJouer(int j, int k, int joueur, bool bonnePosition)
+        public static bool AJouer(int j, int k, int joueur)
         {
-            while (j > 3 || j < 0 || k > 3 || k < 0)
+            int recommencer = 0;
+            if (j > 3 || j < 0 || k > 3 || k < 0)
             {
+                AfficherMorpion(j, k);
                 Console.WriteLine("Vous êtes en dehors du tableau, rejouez à l'intérieur du tableau.");
-            }
-            while (bonnePosition == false)
-            {
-                Console.WriteLine("La position a déjà été jouée, rejouez dans une autre position.");
+                recommencer = 1;
+                return false;
             }
             
-            if (joueur == 1)
+            if (grille[j, k] == 1 || grille[j, k] == 2)
             {
-                joueur = 2;
-                Console.WriteLine("C'est au joueur 2 de jouer.");
+                AfficherMorpion(j, k);
+                Console.WriteLine("Cette position a déjà été jouée, rejouez dans une position libre.");
+                recommencer = 1;
+                return false;
             }
-            else
+
+            if (recommencer == 0)
             {
-                joueur = 1;
-                Console.WriteLine("C'est au joueur 1 de jouer.");
+                if (joueur == 1)
+                {
+                    joueur = 2;
+                    Console.WriteLine("C'est au joueur 2 de jouer.");
+                    return true;
+                }
+                else
+                {
+                    joueur = 1;
+                    Console.WriteLine("C'est au joueur 1 de jouer.");
+                    return true;
+                }
             }
 
             // A compléter au dessus de "return false;"
             return false;
         }
 
-        // Fonction permettant de vérifier
-        // si un joueur à gagner
+        // Fonction permettant de vérifier si un joueur à gagner
         public static bool Gagner(int l, int c, int joueur)
         {
             // A compléter au dessus de "return false;"
@@ -76,7 +88,7 @@ namespace Morpion
         // Programme principal
         static void Main(string[] args)
         {
-            //--- Déclarations et initialisations --
+            //--- Déclarations et initialisations ---
             int LigneDébut = Console.CursorTop;     // par rapport au sommet de la fenêtre
             int ColonneDébut = Console.CursorLeft; // par rapport au sommet de la fenêtre
 
@@ -108,11 +120,18 @@ namespace Morpion
                     // Peut changer en fonction de comment vous avez fait votre tableau.
                     Console.SetCursorPosition(LigneDébut + 10, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
                     c = int.Parse(Console.ReadLine()) - 1;
+                    // A compléter
+                    j = l;
+                    k = c;
+                    if (AJouer(j, k, joueur) == true)
+                    {
 
-                    // A compléter 
+                        essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                    }
+                    
                     AfficherMorpion(j, k);
 
-                    essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                    
                 }
                 catch (Exception e)
                 {
@@ -121,7 +140,7 @@ namespace Morpion
 
                 // Changement de joueur
                 // A compléter 
-                AJouer(j, k, joueur, bonnePosition);
+                AJouer(j, k, joueur);
 
             }; // Fin TQ
 
