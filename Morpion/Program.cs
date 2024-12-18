@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Morpion
 {
@@ -13,13 +16,14 @@ namespace Morpion
         public static void AfficherMorpion(int j, int k)
         {
             string dessinGrille =
-            "\n|===|===|===|\n" +
-             $"| {grille[0, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
-              "|===|===|===|\n" +
-             $"| {grille[1, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
-              "|===|===|===|\n" +
-             $"| {grille[2, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
-              "|===|===|===|\n";
+              "   L1  L2  L3    " +
+            "\n  |===|===|===|\n" +
+             $"C1| {grille[0, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
+              "  |===|===|===|\n" +
+             $"C2| {grille[1, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
+              "  |===|===|===|\n" +
+             $"C3| {grille[2, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
+              "  |===|===|===|\n";
             // Dessiner une grille
             if (grille[j, k] == 0)
             {
@@ -47,7 +51,8 @@ namespace Morpion
             if (j > 3 || j < 0 || k > 3 || k < 0)
             {
                 Console.Clear();
-                Console.WriteLine("Vous êtes en dehors du tableau, rejouez à l'intérieur du tableau.");
+                Console.WriteLine("Vous êtes en dehors du tableau." + "\n" + "Appuyez sur une touche pour rejouer à l'intérieur du tableau.");
+                Console.ReadKey();
                 recommencer = 1;
                 return false;
             }
@@ -55,7 +60,8 @@ namespace Morpion
             if (grille[j, k] == 1 || grille[j, k] == 2)
             {
                 Console.Clear();
-                Console.WriteLine("La position choisie a déjà été jouée, rejouez dans une position libre.");
+                Console.WriteLine("La position choisie a déjà été jouée." + "\n" + "Appuyez sur une touche pour rejouer dans une position libre.");
+                Console.ReadKey();
                 recommencer = 1;
                 return false;
             }
@@ -66,14 +72,16 @@ namespace Morpion
                 {
                     joueur = 2;
                     Console.Clear();
-                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer.");
+                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                    Console.ReadKey();
                     return true;
                 }
                 else
                 {
                     joueur = 1;
                     Console.Clear();
-                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer.");
+                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                    Console.ReadKey();
                     return true;
                 }
             }
@@ -126,12 +134,24 @@ namespace Morpion
                     Console.WriteLine("Numéro de colonne =    ");
                     try
                     {
-                        // Peut changer en fonction de comment vous avez fait votre tableau.
-                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 8); // Permet de manipuler le curseur dans la fenêtre 
-                        l = int.Parse(Console.ReadLine()) - 1;
-                        // Peut changer en fonction de comment vous avez fait votre tableau.
-                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
-                        c = int.Parse(Console.ReadLine()) - 1;
+                        if (essais == 0)
+                        {
+                            // Peut changer en fonction de comment vous avez fait votre tableau.
+                            Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 8); // Permet de manipuler le curseur dans la fenêtre 
+                            l = int.Parse(Console.ReadLine()) - 1;
+
+                            // Peut changer en fonction de comment vous avez fait votre tableau.
+                            Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre
+                            c = int.Parse(Console.ReadLine()) - 1;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9);
+                            l = int.Parse(Console.ReadLine()) - 1;
+
+                            Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 10);
+                            c = int.Parse(Console.ReadLine()) - 1;
+                        }
 
                         Console.WriteLine(c);
                         Console.WriteLine(l);
@@ -139,7 +159,6 @@ namespace Morpion
                         k = c;
                         if (AJouer(j, k, joueur) == true)
                         {
-
                             essais++; // L'essais étant terminé, on le compte rajoute au compteur
                         }
                         Console.Clear();
@@ -148,8 +167,9 @@ namespace Morpion
                     }
                     catch
                     {
+                        Console.WriteLine("La saisie n'est pas conforme." + "\n" + "Appuyez sur une touche pour ressaisir la valeur.");
+                        Console.ReadKey();
                         Console.Clear();
-                        Console.WriteLine("La saisie n'est pas conforme, ressaisissez la valeur.");
                     }
 
                     
