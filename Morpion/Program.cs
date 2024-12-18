@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Morpion
 {
@@ -15,17 +16,23 @@ namespace Morpion
         // Fonction permettant l'affichage du Morpion
         public static void AfficherMorpion(int j, int k)
         {
-            string dessinGrille =
+            string hautGrille =
               "   L1  L2  L3    " +
-            "\n  |===|===|===|\n" +
-             $"C1| {grille[0, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
+            "\n  |===|===|===|\n";
+            string colonne1Grille =
+             $"C1| {grille[0, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n"; /*+
               "  |===|===|===|\n" +
-             $"C2| {grille[1, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
+             "C2| {grille[1, 0]} | {grille[1, 1]} | {grille[2, 2]} |\n" +
               "  |===|===|===|\n" +
-             $"C3| {grille[2, 0]} | {grille[0, 1]} | {grille[0, 2]} |\n" +
-              "  |===|===|===|\n";
+             "C3| {grille[2, 0]} | {grille[2, 1]} | {grille[2, 2]} |\n" +
+              "  |===|===|===|\n";*/
+
+
+            colonne1Grille.Replace($"{grille[0, 0]}", "-");
+            Console.WriteLine(colonne1Grille);
+
             // Dessiner une grille
-            if (grille[j, k] == 0)
+            /* if (grille[j, k] == 0)
             {
                 Console.Write(
                     "   L1  L2  L3    " +
@@ -36,8 +43,13 @@ namespace Morpion
                     "  |===|===|===|\n" +
                     "C3| - | - | - |\n" +
                     "  |===|===|===|\n"
-                  );
+                );
             }
+            else
+            {
+                Console.WriteLine(dessinGrille); // Affiche la grille actualisée
+            }
+            */
         }
         // Fonction permettant de changer
         // dans le tableau quel est le 
@@ -47,47 +59,26 @@ namespace Morpion
         // n'est pas déjà jouée
         public static bool AJouer(int j, int k, int joueur)
         {
-            int recommencer = 0;
+            // A compléter
+
             if (j > 3 || j < 0 || k > 3 || k < 0)
             {
                 Console.Clear();
                 Console.WriteLine("Vous êtes en dehors du tableau." + "\n" + "Appuyez sur une touche pour rejouer à l'intérieur du tableau.");
                 Console.ReadKey();
-                recommencer = 1;
                 return false;
             }
-            
-            if (grille[j, k] == 1 || grille[j, k] == 2)
+            else if (grille[j, k] == 1 || grille[j, k] == 2)
             {
                 Console.Clear();
                 Console.WriteLine("La position choisie a déjà été jouée." + "\n" + "Appuyez sur une touche pour rejouer dans une position libre.");
                 Console.ReadKey();
-                recommencer = 1;
                 return false;
             }
-
-            if (recommencer == 0)
+            else
             {
-                if (joueur == 1)
-                {
-                    joueur = 2;
-                    Console.Clear();
-                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
-                    Console.ReadKey();
-                    return true;
-                }
-                else
-                {
-                    joueur = 1;
-                    Console.Clear();
-                    Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
-                    Console.ReadKey();
-                    return true;
-                }
+                return true;
             }
-
-            // A compléter au dessus de "return false;"
-            return false;
         }
 
         // Fonction permettant de vérifier si un joueur à gagner
@@ -152,18 +143,48 @@ namespace Morpion
                             Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 10);
                             c = int.Parse(Console.ReadLine()) - 1;
                         }
-
-                        Console.WriteLine(c);
-                        Console.WriteLine(l);
                         j = l;
                         k = c;
                         if (AJouer(j, k, joueur) == true)
                         {
+                            /*if (grille[c, l] == 0)
+                            {
+                                AfficherMorpion(j, k);
+                                string dessinGrille = dessinGrille.Replace($"{grille[j, k]}", "-");
+                            }
+                            else if (grille[j, k] == 1)
+                            {
+                                AfficherMorpion(j, k);
+                                string dessinGrille = dessinGrille.Replace($"{grille[j, k]}", "X");
+                            }
+                            else if (grille[j, k] == 2)
+                            {
+                                AfficherMorpion(j, k);
+                                string dessinGrille = dessinGrille.Replace($"{grille[j, k]}", "O");
+                            }
+                            */
+
+
                             essais++; // L'essais étant terminé, on le compte rajoute au compteur
                         }
                         Console.Clear();
-                        
+
                         // A compléter
+
+                        if (joueur == 1)
+                        {
+                            joueur = 2;
+                            Console.Clear();
+                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            joueur = 1;
+                            Console.Clear();
+                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            Console.ReadKey();
+                        }
                     }
                     catch
                     {
@@ -171,8 +192,6 @@ namespace Morpion
                         Console.ReadKey();
                         Console.Clear();
                     }
-
-                    
                 }
                 catch (Exception e)
                 {
