@@ -85,7 +85,22 @@ namespace Morpion
         // Fonction permettant de vérifier si un joueur à gagner
         public static bool Gagner(int l, int c, int joueur)
         {
-            // A compléter au dessus de "return false;"
+            // A compléter
+
+            if (grille[])
+            {
+                string signe;
+                if (joueur == 1)
+                {
+                    signe = "X";
+                }
+                else
+                {
+                    signe = "O";
+                }
+                Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
+                return true;
+            }
             return false;
         }
 
@@ -151,24 +166,24 @@ namespace Morpion
                             grille[j, k] = joueur;
                             AfficherMorpion(j, k);
                             essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                            if (joueur == 1)
+                            {
+                                joueur = 2;
+                                Console.Clear();
+                                Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            }
+                            else
+                            {
+                                joueur = 1;
+                                Console.Clear();
+                                Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            }
                         }
-                        Console.Clear();
 
                         // A compléter
 
-                        if (joueur == 1)
-                        {
-                            joueur = 2;
-                            Console.Clear();
-                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                        Gagner(l, c, joueur);
 
-                        }
-                        else
-                        {
-                            joueur = 1;
-                            Console.Clear();
-                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
-                        }
                     }
                     catch
                     {
@@ -189,6 +204,15 @@ namespace Morpion
 
             // Fin de la partie
             // A compléter 
+
+            if (Gagner(l, c, joueur) == true)
+            {
+                Console.WriteLine($"La partie est maintenant terminée avec le joueur {joueur} gagant.");
+            }
+            else
+            {
+                Console.WriteLine("La partie est maintenant terminée sans joueur gagant.");
+            }
 
             Console.ReadKey();
         }
