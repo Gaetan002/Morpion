@@ -87,11 +87,25 @@ namespace Morpion
         {
             // A compléter
 
-            /*if (grille[])
+            // Vérifier les lignes
+            for (int i = 0; i < 3; i++)
             {
-                
+                if (grille[i, 0] == joueur && grille[i, 1] == joueur && grille[i, 2] == joueur)
+                    return true;
+            }
+
+            // Vérifier les colonnes
+            for (int i = 0; i < 3; i++)
+            {
+                if (grille[0, i] == joueur && grille[1, i] == joueur && grille[2, i] == joueur)
+                    return true;
+            }
+
+            // Vérifier les diagonales
+            if (grille[0, 0] == joueur && grille[1, 1] == joueur && grille[2, 2] == joueur)
                 return true;
-            }*/
+            if (grille[0, 2] == joueur && grille[1, 1] == joueur && grille[2, 0] == joueur)
+                return true;
 
             return false;
         }
@@ -104,8 +118,9 @@ namespace Morpion
             int ColonneDébut = Console.CursorLeft; // par rapport au sommet de la fenêtre
 
             int essais = 0;    // compteur d'essais
-            int joueur = 1;   // 1 pour la premier joueur, 2 pour le second
-            int l, c = 0;      // numéro de ligne et de colonne
+            int joueur = 1;    // 1 pour la premier joueur, 2 pour le second
+            int l = 0;       // numéro de ligne
+            int c = 0;       // numéro de colonne
             int j, k = 0;      // Parcourir le tableau en 2 dimensions
             bool gagner = false; // Permet de vérifier si un joueur à gagné 
             bool bonnePosition = false; // Permet de vérifier si la position souhaité est disponible
@@ -150,6 +165,30 @@ namespace Morpion
                             grille[j, k] = joueur;
                             AfficherMorpion(j, k);
                             essais++; // L'essais étant terminé, on le compte rajoute au compteur
+
+                            if (Gagner(l, c, joueur) == true)
+                            {
+                                string signe;
+                                if (joueur == 1)
+                                {
+                                    signe = "X";
+                                }
+                                else
+                                {
+                                    signe = "O";
+                                }
+
+                                Console.Clear();
+                                AfficherMorpion(j, k);
+                                Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
+                                break;
+                            }
+
+                            if (essais == 9)
+                            {
+                                break;
+                            }
+
                             if (joueur == 1)
                             {
                                 joueur = 2;
@@ -166,25 +205,6 @@ namespace Morpion
                                 Console.ReadKey();
                                 Console.Clear();
                             }
-                        }
-
-                        // A compléter
-
-                        if (Gagner(l, c, joueur) == true)
-                        {
-                            string signe;
-                            if (joueur == 1)
-                            {
-                                signe = "X";
-                            }
-                            else
-                            {
-                                signe = "O";
-                            }
-
-                            Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
-
-                            break;
                         }
                     }
                     catch
@@ -207,14 +227,14 @@ namespace Morpion
             // Fin de la partie
             // A compléter 
 
-            /*if (Gagner(l, c, joueur) == true)
+            if (Gagner(l, c, joueur) == true)
             {
-                Console.WriteLine($"La partie est maintenant terminée avec le joueur {joueur} gagant.");
+                Console.WriteLine($"La partie est donc maintenant terminée.");
             }
             else
             {
                 Console.WriteLine("La partie est maintenant terminée sans joueur gagant.");
-            }*/
+            }
 
             Console.ReadKey();
         }
