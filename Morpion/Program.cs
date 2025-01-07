@@ -14,7 +14,7 @@ namespace Morpion
         public static int[,] grille = new int[3, 3]; // matrice pour stocker les coups joués
 
         // Fonction permettant l'affichage du Morpion
-        public static void AfficherMorpion(int j, int k)
+        public static void AfficherMorpion(int l, int c)
         {
             for (int a = 0; a < grille.GetLength(0); a++)
             {
@@ -37,12 +37,12 @@ namespace Morpion
                         Console.Write(" O ");
                         Console.Write("|");
                     }
-                    else if (a == j && b == k && grille[j, k] == 1)
+                    else if (a == l && b == c && grille[l, c] == 1)
                     {
                         Console.Write(" X ");
                         Console.Write("|");
                     }
-                    else if (a == j && b == k && grille[j, k] == 2)
+                    else if (a == l && b == c && grille[l, c] == 2)
                     {
                         Console.Write(" O ");
                         Console.Write("|");
@@ -57,18 +57,18 @@ namespace Morpion
         // Bien vérifier que le joueur ne sort
         // pas du tableau et que la position
         // n'est pas déjà jouée
-        public static bool AJouer(int j, int k, int joueur)
+        public static bool AJouer(int l, int c, int joueur)
         {
             // A compléter
 
-            if (j > 3 || j < 0 || k > 3 || k < 0)
+            if (l > 3 || l < 0 || c > 3 || c < 0)
             {
                 Console.WriteLine("Vous êtes en dehors du tableau." + "\n" + "Appuyez sur une touche pour rejouer à l'intérieur du tableau.");
                 Console.ReadKey();
                 Console.Clear();
                 return false;
             }
-            else if (grille[j, k] == 1 || grille[j, k] == 2)
+            else if (grille[l, c] == 1 || grille[l, c] == 2)
             {
                 Console.WriteLine("La position choisie a déjà été jouée." + "\n" + "Appuyez sur une touche pour rejouer dans une position libre.");
                 Console.ReadKey();
@@ -130,7 +130,6 @@ namespace Morpion
             int c = 0;       // numéro de colonne
             int j, k = 0;      // Parcourir le tableau en 2 dimensions
             bool gagner = false; // Permet de vérifier si un joueur a gagné 
-            bool bonnePosition = false; // Permet de vérifier si la position souhaité est disponible
 
             //--- initialisation de la grille ---
             // On met chaque valeur du tableau à 0, signifiant qu'il n'y a pas de coup joué à cet emplacement
@@ -141,14 +140,11 @@ namespace Morpion
                     grille[j, k] = 0;
                 }
             }
-
-            j = 0;
-            k = 0;
             while (!gagner && essais != 9)
             {
                 Console.WriteLine($"Joueur {joueur}, c'est à votre tour.");
 
-                AfficherMorpion(j, k);
+                AfficherMorpion(l, c);
 
                 // A compléter 
                 try
@@ -164,12 +160,10 @@ namespace Morpion
                     Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 10); // Permet de manipuler le curseur dans la fenêtre
                     c = int.Parse(Console.ReadLine()) - 1;
 
-                    j = l;
-                    k = c;
-                    if (AJouer(j, k, joueur) == true)
+                    if (AJouer(l, c, joueur) == true)
                     {
-                        grille[j, k] = joueur;
-                        AfficherMorpion(j, k);
+                        grille[l, c] = joueur;
+                        AfficherMorpion(l, c);
                         essais++; // L'essais étant terminé, on le compte rajoute au compteur
                         if (Gagner(l, c, joueur) == true)
                         {
@@ -184,7 +178,7 @@ namespace Morpion
                             }
 
                             Console.Clear();
-                            AfficherMorpion(j, k);
+                            AfficherMorpion(l, c);
                             Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
                             break;
                         }
