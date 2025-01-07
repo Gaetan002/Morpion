@@ -48,7 +48,6 @@ namespace Morpion
                         Console.Write("|");
                     }
                 }
-
             }
             Console.Write("\n|===|===|===|\n");
         }
@@ -91,21 +90,29 @@ namespace Morpion
             for (int i = 0; i < 3; i++)
             {
                 if (grille[i, 0] == joueur && grille[i, 1] == joueur && grille[i, 2] == joueur)
+                {
                     return true;
+                }
             }
 
             // Vérifier les colonnes
             for (int i = 0; i < 3; i++)
             {
                 if (grille[0, i] == joueur && grille[1, i] == joueur && grille[2, i] == joueur)
+                {
                     return true;
+                }
             }
 
             // Vérifier les diagonales
             if (grille[0, 0] == joueur && grille[1, 1] == joueur && grille[2, 2] == joueur)
+            {
                 return true;
+            }
             if (grille[0, 2] == joueur && grille[1, 1] == joueur && grille[2, 0] == joueur)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -122,7 +129,7 @@ namespace Morpion
             int l = 0;       // numéro de ligne
             int c = 0;       // numéro de colonne
             int j, k = 0;      // Parcourir le tableau en 2 dimensions
-            bool gagner = false; // Permet de vérifier si un joueur à gagné 
+            bool gagner = false; // Permet de vérifier si un joueur a gagné 
             bool bonnePosition = false; // Permet de vérifier si la position souhaité est disponible
 
             //--- initialisation de la grille ---
@@ -148,75 +155,69 @@ namespace Morpion
                 {
                     Console.WriteLine("Numéro de ligne   =    ");
                     Console.WriteLine("Numéro de colonne =    ");
-                    try
+                    
+                    // Peut changer en fonction de comment vous avez fait votre tableau.
+                    Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
+                    l = int.Parse(Console.ReadLine()) - 1;
+
+                    // Peut changer en fonction de comment vous avez fait votre tableau.
+                    Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 10); // Permet de manipuler le curseur dans la fenêtre
+                    c = int.Parse(Console.ReadLine()) - 1;
+
+                    j = l;
+                    k = c;
+                    if (AJouer(j, k, joueur) == true)
                     {
-                        // Peut changer en fonction de comment vous avez fait votre tableau.
-                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 9); // Permet de manipuler le curseur dans la fenêtre 
-                        l = int.Parse(Console.ReadLine()) - 1;
-
-                        // Peut changer en fonction de comment vous avez fait votre tableau.
-                        Console.SetCursorPosition(LigneDébut + 20, ColonneDébut + 10); // Permet de manipuler le curseur dans la fenêtre
-                        c = int.Parse(Console.ReadLine()) - 1;
-
-                        j = l;
-                        k = c;
-                        if (AJouer(j, k, joueur) == true)
+                        grille[j, k] = joueur;
+                        AfficherMorpion(j, k);
+                        essais++; // L'essais étant terminé, on le compte rajoute au compteur
+                        if (Gagner(l, c, joueur) == true)
                         {
-                            grille[j, k] = joueur;
-                            AfficherMorpion(j, k);
-                            essais++; // L'essais étant terminé, on le compte rajoute au compteur
-
-                            if (Gagner(l, c, joueur) == true)
-                            {
-                                string signe;
-                                if (joueur == 1)
-                                {
-                                    signe = "X";
-                                }
-                                else
-                                {
-                                    signe = "O";
-                                }
-
-                                Console.Clear();
-                                AfficherMorpion(j, k);
-                                Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
-                                break;
-                            }
-
-                            if (essais == 9)
-                            {
-                                break;
-                            }
-
+                            string signe;
                             if (joueur == 1)
                             {
-                                joueur = 2;
-                                Console.Clear();
-                                Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
-                                Console.ReadKey();
-                                Console.Clear();
+                                signe = "X";
                             }
                             else
                             {
-                                joueur = 1;
-                                Console.Clear();
-                                Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
-                                Console.ReadKey();
-                                Console.Clear();
+                                signe = "O";
                             }
+
+                            Console.Clear();
+                            AfficherMorpion(j, k);
+                            Console.WriteLine($"Le joueur {joueur} a gagné la partie de morpion en alignant 3 {signe} !");
+                            break;
+                        }
+
+                        if (essais == 9)
+                        {
+                            break;
+                        }
+
+                        if (joueur == 1)
+                        {
+                            joueur = 2;
+                            Console.Clear();
+                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 2 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            joueur = 1;
+                            Console.Clear();
+                            Console.WriteLine("Vous avez effectué votre essais, c'est maintenant au joueur 1 de jouer." + "\n" + "Appuyez sur une touche pour continuer.");
+                            Console.ReadKey();
+                            Console.Clear();
                         }
                     }
-                    catch
-                    {
-                        Console.WriteLine("La saisie n'est pas conforme." + "\n" + "Appuyez sur une touche pour recommencer la saisie des valeurs.");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.Clear();
+                    Console.WriteLine("La saisie n'est pas conforme." + "\n" + "Appuyez sur une touche pour recommencer la saisie des valeurs.");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
 
                 // Changement de joueur
